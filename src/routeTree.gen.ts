@@ -9,38 +9,198 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedWhatIfRouteImport } from './routes/_authenticated/what-if'
+import { Route as AuthenticatedVayuprintRouteImport } from './routes/_authenticated/vayuprint'
+import { Route as AuthenticatedSymptomsRouteImport } from './routes/_authenticated/symptoms'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedPeakFlowRouteImport } from './routes/_authenticated/peak-flow'
+import { Route as AuthenticatedMedicationsRouteImport } from './routes/_authenticated/medications'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedAirMemoryRouteImport } from './routes/_authenticated/air-memory'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedWhatIfRoute = AuthenticatedWhatIfRouteImport.update({
+  id: '/what-if',
+  path: '/what-if',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedVayuprintRoute = AuthenticatedVayuprintRouteImport.update({
+  id: '/vayuprint',
+  path: '/vayuprint',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSymptomsRoute = AuthenticatedSymptomsRouteImport.update({
+  id: '/symptoms',
+  path: '/symptoms',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPeakFlowRoute = AuthenticatedPeakFlowRouteImport.update({
+  id: '/peak-flow',
+  path: '/peak-flow',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMedicationsRoute =
+  AuthenticatedMedicationsRouteImport.update({
+    id: '/medications',
+    path: '/medications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAirMemoryRoute = AuthenticatedAirMemoryRouteImport.update({
+  id: '/air-memory',
+  path: '/air-memory',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/air-memory': typeof AuthenticatedAirMemoryRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/medications': typeof AuthenticatedMedicationsRoute
+  '/peak-flow': typeof AuthenticatedPeakFlowRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/symptoms': typeof AuthenticatedSymptomsRoute
+  '/vayuprint': typeof AuthenticatedVayuprintRoute
+  '/what-if': typeof AuthenticatedWhatIfRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/air-memory': typeof AuthenticatedAirMemoryRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/medications': typeof AuthenticatedMedicationsRoute
+  '/peak-flow': typeof AuthenticatedPeakFlowRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/symptoms': typeof AuthenticatedSymptomsRoute
+  '/vayuprint': typeof AuthenticatedVayuprintRoute
+  '/what-if': typeof AuthenticatedWhatIfRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/air-memory': typeof AuthenticatedAirMemoryRoute
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/medications': typeof AuthenticatedMedicationsRoute
+  '/_authenticated/peak-flow': typeof AuthenticatedPeakFlowRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/symptoms': typeof AuthenticatedSymptomsRoute
+  '/_authenticated/vayuprint': typeof AuthenticatedVayuprintRoute
+  '/_authenticated/what-if': typeof AuthenticatedWhatIfRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/air-memory'
+    | '/analytics'
+    | '/dashboard'
+    | '/medications'
+    | '/peak-flow'
+    | '/profile'
+    | '/settings'
+    | '/symptoms'
+    | '/vayuprint'
+    | '/what-if'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/air-memory'
+    | '/analytics'
+    | '/dashboard'
+    | '/medications'
+    | '/peak-flow'
+    | '/profile'
+    | '/settings'
+    | '/symptoms'
+    | '/vayuprint'
+    | '/what-if'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/air-memory'
+    | '/_authenticated/analytics'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/medications'
+    | '/_authenticated/peak-flow'
+    | '/_authenticated/profile'
+    | '/_authenticated/settings'
+    | '/_authenticated/symptoms'
+    | '/_authenticated/vayuprint'
+    | '/_authenticated/what-if'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +208,113 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/what-if': {
+      id: '/_authenticated/what-if'
+      path: '/what-if'
+      fullPath: '/what-if'
+      preLoaderRoute: typeof AuthenticatedWhatIfRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/vayuprint': {
+      id: '/_authenticated/vayuprint'
+      path: '/vayuprint'
+      fullPath: '/vayuprint'
+      preLoaderRoute: typeof AuthenticatedVayuprintRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/symptoms': {
+      id: '/_authenticated/symptoms'
+      path: '/symptoms'
+      fullPath: '/symptoms'
+      preLoaderRoute: typeof AuthenticatedSymptomsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/peak-flow': {
+      id: '/_authenticated/peak-flow'
+      path: '/peak-flow'
+      fullPath: '/peak-flow'
+      preLoaderRoute: typeof AuthenticatedPeakFlowRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/medications': {
+      id: '/_authenticated/medications'
+      path: '/medications'
+      fullPath: '/medications'
+      preLoaderRoute: typeof AuthenticatedMedicationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/air-memory': {
+      id: '/_authenticated/air-memory'
+      path: '/air-memory'
+      fullPath: '/air-memory'
+      preLoaderRoute: typeof AuthenticatedAirMemoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAirMemoryRoute: typeof AuthenticatedAirMemoryRoute
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedMedicationsRoute: typeof AuthenticatedMedicationsRoute
+  AuthenticatedPeakFlowRoute: typeof AuthenticatedPeakFlowRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedSymptomsRoute: typeof AuthenticatedSymptomsRoute
+  AuthenticatedVayuprintRoute: typeof AuthenticatedVayuprintRoute
+  AuthenticatedWhatIfRoute: typeof AuthenticatedWhatIfRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAirMemoryRoute: AuthenticatedAirMemoryRoute,
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedMedicationsRoute: AuthenticatedMedicationsRoute,
+  AuthenticatedPeakFlowRoute: AuthenticatedPeakFlowRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedSymptomsRoute: AuthenticatedSymptomsRoute,
+  AuthenticatedVayuprintRoute: AuthenticatedVayuprintRoute,
+  AuthenticatedWhatIfRoute: AuthenticatedWhatIfRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

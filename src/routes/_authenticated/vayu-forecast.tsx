@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { computeRisk } from "@/lib/risk-engine";
 
-export const Route = createFileRoute("/_authenticated/what-if")({
+export const Route = createFileRoute("/_authenticated/vayu-forecast")({
   head: () => ({
     meta: [
       { title: "What-if Lab — Vayu Vision" },

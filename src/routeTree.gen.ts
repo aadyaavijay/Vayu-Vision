@@ -12,8 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedWhatIfRouteImport } from './routes/_authenticated/what-if'
-import { Route as AuthenticatedVayuprintRouteImport } from './routes/_authenticated/vayuprint'
+import { Route as AuthenticatedVayuYatraRouteImport } from './routes/_authenticated/vayu-yatra'
+import { Route as AuthenticatedVayuMemoryRouteImport } from './routes/_authenticated/vayu-memory'
+import { Route as AuthenticatedVayuForecastRouteImport } from './routes/_authenticated/vayu-forecast'
 import { Route as AuthenticatedSymptomsRouteImport } from './routes/_authenticated/symptoms'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
@@ -21,7 +22,6 @@ import { Route as AuthenticatedPeakFlowRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedMedicationsRouteImport } from './routes/_authenticated/medications'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
-import { Route as AuthenticatedAirMemoryRouteImport } from './routes/_authenticated/air-memory'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -37,16 +37,22 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedWhatIfRoute = AuthenticatedWhatIfRouteImport.update({
-  id: '/what-if',
-  path: '/what-if',
+const AuthenticatedVayuYatraRoute = AuthenticatedVayuYatraRouteImport.update({
+  id: '/vayu-yatra',
+  path: '/vayu-yatra',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedVayuprintRoute = AuthenticatedVayuprintRouteImport.update({
-  id: '/vayuprint',
-  path: '/vayuprint',
+const AuthenticatedVayuMemoryRoute = AuthenticatedVayuMemoryRouteImport.update({
+  id: '/vayu-memory',
+  path: '/vayu-memory',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedVayuForecastRoute =
+  AuthenticatedVayuForecastRouteImport.update({
+    id: '/vayu-forecast',
+    path: '/vayu-forecast',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSymptomsRoute = AuthenticatedSymptomsRouteImport.update({
   id: '/symptoms',
   path: '/symptoms',
@@ -83,16 +89,10 @@ const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAirMemoryRoute = AuthenticatedAirMemoryRouteImport.update({
-  id: '/air-memory',
-  path: '/air-memory',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/air-memory': typeof AuthenticatedAirMemoryRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/medications': typeof AuthenticatedMedicationsRoute
@@ -100,13 +100,13 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/symptoms': typeof AuthenticatedSymptomsRoute
-  '/vayuprint': typeof AuthenticatedVayuprintRoute
-  '/what-if': typeof AuthenticatedWhatIfRoute
+  '/vayu-forecast': typeof AuthenticatedVayuForecastRoute
+  '/vayu-memory': typeof AuthenticatedVayuMemoryRoute
+  '/vayu-yatra': typeof AuthenticatedVayuYatraRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/air-memory': typeof AuthenticatedAirMemoryRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/medications': typeof AuthenticatedMedicationsRoute
@@ -114,15 +114,15 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/symptoms': typeof AuthenticatedSymptomsRoute
-  '/vayuprint': typeof AuthenticatedVayuprintRoute
-  '/what-if': typeof AuthenticatedWhatIfRoute
+  '/vayu-forecast': typeof AuthenticatedVayuForecastRoute
+  '/vayu-memory': typeof AuthenticatedVayuMemoryRoute
+  '/vayu-yatra': typeof AuthenticatedVayuYatraRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
-  '/_authenticated/air-memory': typeof AuthenticatedAirMemoryRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/medications': typeof AuthenticatedMedicationsRoute
@@ -130,15 +130,15 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/symptoms': typeof AuthenticatedSymptomsRoute
-  '/_authenticated/vayuprint': typeof AuthenticatedVayuprintRoute
-  '/_authenticated/what-if': typeof AuthenticatedWhatIfRoute
+  '/_authenticated/vayu-forecast': typeof AuthenticatedVayuForecastRoute
+  '/_authenticated/vayu-memory': typeof AuthenticatedVayuMemoryRoute
+  '/_authenticated/vayu-yatra': typeof AuthenticatedVayuYatraRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/auth'
-    | '/air-memory'
     | '/analytics'
     | '/dashboard'
     | '/medications'
@@ -146,13 +146,13 @@ export interface FileRouteTypes {
     | '/profile'
     | '/settings'
     | '/symptoms'
-    | '/vayuprint'
-    | '/what-if'
+    | '/vayu-forecast'
+    | '/vayu-memory'
+    | '/vayu-yatra'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
-    | '/air-memory'
     | '/analytics'
     | '/dashboard'
     | '/medications'
@@ -160,14 +160,14 @@ export interface FileRouteTypes {
     | '/profile'
     | '/settings'
     | '/symptoms'
-    | '/vayuprint'
-    | '/what-if'
+    | '/vayu-forecast'
+    | '/vayu-memory'
+    | '/vayu-yatra'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
-    | '/_authenticated/air-memory'
     | '/_authenticated/analytics'
     | '/_authenticated/dashboard'
     | '/_authenticated/medications'
@@ -175,8 +175,9 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/settings'
     | '/_authenticated/symptoms'
-    | '/_authenticated/vayuprint'
-    | '/_authenticated/what-if'
+    | '/_authenticated/vayu-forecast'
+    | '/_authenticated/vayu-memory'
+    | '/_authenticated/vayu-yatra'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -208,18 +209,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/what-if': {
-      id: '/_authenticated/what-if'
-      path: '/what-if'
-      fullPath: '/what-if'
-      preLoaderRoute: typeof AuthenticatedWhatIfRouteImport
+    '/_authenticated/vayu-yatra': {
+      id: '/_authenticated/vayu-yatra'
+      path: '/vayu-yatra'
+      fullPath: '/vayu-yatra'
+      preLoaderRoute: typeof AuthenticatedVayuYatraRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/vayuprint': {
-      id: '/_authenticated/vayuprint'
-      path: '/vayuprint'
-      fullPath: '/vayuprint'
-      preLoaderRoute: typeof AuthenticatedVayuprintRouteImport
+    '/_authenticated/vayu-memory': {
+      id: '/_authenticated/vayu-memory'
+      path: '/vayu-memory'
+      fullPath: '/vayu-memory'
+      preLoaderRoute: typeof AuthenticatedVayuMemoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/vayu-forecast': {
+      id: '/_authenticated/vayu-forecast'
+      path: '/vayu-forecast'
+      fullPath: '/vayu-forecast'
+      preLoaderRoute: typeof AuthenticatedVayuForecastRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/symptoms': {
@@ -271,18 +279,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/air-memory': {
-      id: '/_authenticated/air-memory'
-      path: '/air-memory'
-      fullPath: '/air-memory'
-      preLoaderRoute: typeof AuthenticatedAirMemoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAirMemoryRoute: typeof AuthenticatedAirMemoryRoute
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedMedicationsRoute: typeof AuthenticatedMedicationsRoute
@@ -290,12 +290,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedSymptomsRoute: typeof AuthenticatedSymptomsRoute
-  AuthenticatedVayuprintRoute: typeof AuthenticatedVayuprintRoute
-  AuthenticatedWhatIfRoute: typeof AuthenticatedWhatIfRoute
+  AuthenticatedVayuForecastRoute: typeof AuthenticatedVayuForecastRoute
+  AuthenticatedVayuMemoryRoute: typeof AuthenticatedVayuMemoryRoute
+  AuthenticatedVayuYatraRoute: typeof AuthenticatedVayuYatraRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAirMemoryRoute: AuthenticatedAirMemoryRoute,
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedMedicationsRoute: AuthenticatedMedicationsRoute,
@@ -303,8 +303,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedSymptomsRoute: AuthenticatedSymptomsRoute,
-  AuthenticatedVayuprintRoute: AuthenticatedVayuprintRoute,
-  AuthenticatedWhatIfRoute: AuthenticatedWhatIfRoute,
+  AuthenticatedVayuForecastRoute: AuthenticatedVayuForecastRoute,
+  AuthenticatedVayuMemoryRoute: AuthenticatedVayuMemoryRoute,
+  AuthenticatedVayuYatraRoute: AuthenticatedVayuYatraRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

@@ -10,15 +10,15 @@ import { computeRisk } from "@/lib/risk-engine";
 export const Route = createFileRoute("/_authenticated/vayu-forecast")({
   head: () => ({
     meta: [
-      { title: "What-if Lab — Vayu Vision" },
+      { title: "Vayu Forecast — Vayu Vision" },
       { name: "description", content: "Simulate your asthma risk under different conditions." },
       { name: "robots", content: "noindex" },
     ],
   }),
-  component: WhatIfPage,
+  component: VayuForecastPage,
 });
 
-function WhatIfPage() {
+function VayuForecastPage() {
   const [aqi, setAqi] = useState(60);
   const [humidity, setHumidity] = useState(45);
   const [temp, setTemp] = useState(22);
@@ -38,7 +38,7 @@ function WhatIfPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        title="What-if Lab™"
+        title="Vayu Forecast"
         subtitle="Move the dials, see the day. Powered by the same transparent risk engine."
       />
       <div className="grid gap-6 lg:grid-cols-5">

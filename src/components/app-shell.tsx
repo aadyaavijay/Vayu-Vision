@@ -31,9 +31,9 @@ const NAV: Array<{ to: string; label: string; icon: typeof Activity }> = [
   { to: "/symptoms", label: "Symptoms", icon: Activity },
   { to: "/medications", label: "Medications", icon: Pill },
   { to: "/peak-flow", label: "Peak flow", icon: Gauge },
-  { to: "/air-memory", label: "Air Memory", icon: CalendarDays },
-  { to: "/vayuprint", label: "VayuPrint", icon: Radar },
-  { to: "/what-if", label: "What-if Lab", icon: FlaskConical },
+  { to: "/vayu-memory", label: "Vayu Memory", icon: CalendarDays },
+  { to: "/vayu-yatra", label: "Vayu Yatra", icon: Radar },
+  { to: "/vayu-forecast", label: "Vayu Forecast", icon: FlaskConical },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
 ];
 

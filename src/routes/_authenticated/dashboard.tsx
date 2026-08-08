@@ -331,7 +331,7 @@ function DashboardInner() {
       <div className="rounded-2xl border border-border bg-card p-6 shadow-soft">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-xs uppercase tracking-widest text-teal">Air Story™</div>
+            <div className="text-xs uppercase tracking-widest text-teal">Air Story</div>
             <h3 className="mt-1 font-serif text-2xl">Your day, in a breath.</h3>
           </div>
           <div className="text-xs text-muted-foreground">

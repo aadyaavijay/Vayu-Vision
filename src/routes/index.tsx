@@ -152,7 +152,7 @@ function HeroPreview() {
           </div>
           <div className="mt-4 rounded-2xl border border-border/70 bg-background/50 p-4 text-sm text-muted-foreground">
             <span className="mr-2 inline-flex items-center rounded-full bg-emerald/15 px-2 py-0.5 text-xs font-medium text-emerald">
-              Air Story™
+              Air Story
             </span>
             "The air feels clean this morning — a good window to run errands before the pollen count peaks around 4 PM."
           </div>
@@ -215,13 +215,13 @@ const features = [
   },
   {
     icon: <Sparkles className="h-5 w-5" />,
-    title: "VayuPrint™ trigger profile",
+    title: "Vayu Yatra trigger profile",
     body:
       "A personalized radar of what actually sets off your symptoms: pollen, cold air, exercise, sleep debt and more.",
   },
   {
     icon: <Cloud className="h-5 w-5" />,
-    title: "Air Story™ daily brief",
+    title: "Air Story daily brief",
     body:
       "A warm, natural-language summary of your day — supportive, informative, never diagnostic.",
   },

@@ -17,7 +17,7 @@ import { Activity, Wind, Droplets, Thermometer, Pill, Gauge, MapPin, Plus, Loade
 import { getDashboardData } from "@/lib/dashboard.functions";
 import { getLiveEnvironment } from "@/lib/environment.functions";
 import { updateSettings } from "@/lib/logs.functions";
-import { PageHeader, StatTile, EmptyState } from "@/components/ui-bits";
+import { PageHeader, StatTile, EmptyState, DataErrorState } from "@/components/ui-bits";
 import { RiskGauge } from "@/components/risk-gauge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,6 +34,11 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(dashboardQueryOptions()),
+  errorComponent: () => (
+    <div className="py-6">
+      <DataErrorState onRetry={() => window.location.reload()} />
+    </div>
+  ),
   component: DashboardPage,
 });
 

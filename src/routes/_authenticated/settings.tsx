@@ -41,11 +41,12 @@ function SettingsPage() {
     (async () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData.user) return;
-      const { data: s } = await supabase
+      const { data: s, error } = await supabase
         .from("user_settings")
         .select("home_latitude, home_longitude, home_label, notifications_enabled")
         .eq("user_id", userData.user.id)
         .maybeSingle();
+      if (error) toast.error("Could not load your settings. Please try again.");
       if (s) {
         setLat(s.home_latitude?.toString() ?? "");
         setLng(s.home_longitude?.toString() ?? "");

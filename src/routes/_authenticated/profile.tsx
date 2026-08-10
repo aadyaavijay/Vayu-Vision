@@ -49,11 +49,12 @@ function ProfilePage() {
       const { data: userData } = await supabase.auth.getUser();
       setEmail(userData.user?.email ?? "");
       if (userData.user) {
-        const { data: p } = await supabase
+        const { data: p, error } = await supabase
           .from("profiles")
           .select("display_name, age, asthma_severity, known_triggers")
           .eq("id", userData.user.id)
           .maybeSingle();
+        if (error) toast.error("Could not load your profile. Please try again.");
         if (p) {
           setName(p.display_name ?? "");
           setAge(p.age?.toString() ?? "");

@@ -66,10 +66,12 @@ export const getDashboardData = createServerFn({ method: "GET" })
     const pf = pfRes.data ?? [];
 
 
-    // Medication adherence proxy: doses in past 3 days / expected 6.
-    const threeDaysAgo = Date.now() - 3 * 24 * 3600 * 1000;
-    const recentMeds = meds.filter((m) => new Date(m.taken_at).getTime() > threeDaysAgo).length;
-    const adherence = Math.min(1, recentMeds / 6);
+    // Medication adherence requires a prescribed schedule (expected doses per day),
+    // which VayuVision does not currently collect. Without it we cannot compute a
+    // meaningful ratio, so adherence stays unavailable (null) and the risk engine
+    // skips the factor entirely instead of penalising users who log nothing.
+    const adherence: number | null = null;
+
 
     const latestPf = pf[0];
     const peakFlowPct = latestPf?.personal_best

@@ -92,14 +92,34 @@ export const getDashboardData = createServerFn({ method: "GET" })
       recent_symptom_severity: worst,
     });
 
-    // Persist prediction (best-effort).
-    await supabase.from("risk_predictions").insert({
-      user_id: userId,
-      score: risk.score,
-      category: risk.category,
-      factors: risk.factors as unknown as never,
-      inputs: risk.inputs as unknown as never,
-    });
+    // Persist prediction (best-effort), but avoid one row per dashboard render:
+    // only write when the result actually changed or the last row is stale.
+    const { data: lastPrediction } = await supabase
+      .from("risk_predictions")
+      .select("score, category, computed_at")
+      .eq("user_id", userId)
+      .order("computed_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const PREDICTION_TTL_MS = 30 * 60 * 1000;
+    const lastAgeMs = lastPrediction
+      ? Date.now() - new Date(lastPrediction.computed_at).getTime()
+      : Number.POSITIVE_INFINITY;
+    const changed =
+      !lastPrediction ||
+      lastPrediction.score !== risk.score ||
+      lastPrediction.category !== risk.category;
+
+    if (changed || lastAgeMs > PREDICTION_TTL_MS) {
+      await supabase.from("risk_predictions").insert({
+        user_id: userId,
+        score: risk.score,
+        category: risk.category,
+        factors: risk.factors as unknown as never,
+        inputs: risk.inputs as unknown as never,
+      });
+    }
 
     // Weekly symptom aggregate.
     const weekBuckets = new Map<string, { total: number; count: number }>();

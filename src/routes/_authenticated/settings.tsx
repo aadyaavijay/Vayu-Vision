@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
-import { PageHeader } from "@/components/ui-bits";
+import { PageHeader, DataErrorState } from "@/components/ui-bits";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -21,6 +21,11 @@ export const Route = createFileRoute("/_authenticated/settings")({
       { name: "robots", content: "noindex" },
     ],
   }),
+  errorComponent: () => (
+    <div className="py-6">
+      <DataErrorState onRetry={() => window.location.reload()} />
+    </div>
+  ),
   component: SettingsPage,
 });
 
@@ -36,11 +41,12 @@ function SettingsPage() {
     (async () => {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData.user) return;
-      const { data: s } = await supabase
+      const { data: s, error } = await supabase
         .from("user_settings")
         .select("home_latitude, home_longitude, home_label, notifications_enabled")
         .eq("user_id", userData.user.id)
         .maybeSingle();
+      if (error) toast.error("Could not load your settings. Please try again.");
       if (s) {
         setLat(s.home_latitude?.toString() ?? "");
         setLng(s.home_longitude?.toString() ?? "");

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
-import { PageHeader } from "@/components/ui-bits";
+import { PageHeader, DataErrorState } from "@/components/ui-bits";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -21,6 +21,11 @@ export const Route = createFileRoute("/_authenticated/profile")({
       { name: "robots", content: "noindex" },
     ],
   }),
+  errorComponent: () => (
+    <div className="py-6">
+      <DataErrorState onRetry={() => window.location.reload()} />
+    </div>
+  ),
   component: ProfilePage,
 });
 
@@ -44,11 +49,12 @@ function ProfilePage() {
       const { data: userData } = await supabase.auth.getUser();
       setEmail(userData.user?.email ?? "");
       if (userData.user) {
-        const { data: p } = await supabase
+        const { data: p, error } = await supabase
           .from("profiles")
           .select("display_name, age, asthma_severity, known_triggers")
           .eq("id", userData.user.id)
           .maybeSingle();
+        if (error) toast.error("Could not load your profile. Please try again.");
         if (p) {
           setName(p.display_name ?? "");
           setAge(p.age?.toString() ?? "");

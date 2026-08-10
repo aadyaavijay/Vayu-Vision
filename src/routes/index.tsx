@@ -223,7 +223,7 @@ const features = [
     icon: <Cloud className="h-5 w-5" />,
     title: "Air Story daily brief",
     body:
-      "A warm, natural-language summary of your day — supportive, informative, never diagnostic.",
+      "A warm, plain-language summary of your day, generated from your own logs and live air data — supportive, informative, never diagnostic.",
   },
   {
     icon: <ShieldCheck className="h-5 w-5" />,

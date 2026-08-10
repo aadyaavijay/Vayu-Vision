@@ -105,10 +105,50 @@ function describeWeatherCode(code: number): string {
   return map[code] ?? "Mixed conditions";
 }
 
+/** Reuse a stored snapshot for the same user + location within this window. */
+const SNAPSHOT_TTL_MS = 45 * 60 * 1000;
+/** ~1km tolerance so tiny GPS drift doesn't defeat the cache. */
+const LOCATION_TOLERANCE_DEG = 0.01;
+
 export const getLiveEnvironment = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => inputSchema.parse(data))
   .handler(async ({ data, context }): Promise<{ snapshot: EnvironmentSnapshot | null; error?: string }> => {
+    // Freshness guard: avoid a new Open-Meteo call + snapshot row on every refresh.
+    const since = new Date(Date.now() - SNAPSHOT_TTL_MS).toISOString();
+    const { data: cached } = await context.supabase
+      .from("environment_snapshots")
+      .select("*")
+      .eq("user_id", context.userId)
+      .gte("captured_at", since)
+      .gte("latitude", data.latitude - LOCATION_TOLERANCE_DEG)
+      .lte("latitude", data.latitude + LOCATION_TOLERANCE_DEG)
+      .gte("longitude", data.longitude - LOCATION_TOLERANCE_DEG)
+      .lte("longitude", data.longitude + LOCATION_TOLERANCE_DEG)
+      .order("captured_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (cached) {
+      return {
+        snapshot: {
+          latitude: cached.latitude ?? data.latitude,
+          longitude: cached.longitude ?? data.longitude,
+          aqi: cached.aqi,
+          pm25: cached.pm25,
+          pm10: cached.pm10,
+          ozone: cached.ozone,
+          temperature_c: cached.temperature_c,
+          humidity: cached.humidity,
+          pollen: cached.pollen,
+          weather_summary: cached.weather_summary,
+          source: cached.source ?? "open-meteo",
+          captured_at: cached.captured_at,
+          label: data.label,
+        },
+      };
+    }
+
     try {
       const reading = await fetchOpenMeteo(data.latitude, data.longitude);
       const snapshot: EnvironmentSnapshot = {

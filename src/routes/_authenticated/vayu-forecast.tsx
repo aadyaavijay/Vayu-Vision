@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { PageHeader } from "@/components/ui-bits";
+import { PageHeader, DataErrorState } from "@/components/ui-bits";
 import { RiskGauge } from "@/components/risk-gauge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -15,6 +15,11 @@ export const Route = createFileRoute("/_authenticated/vayu-forecast")({
       { name: "robots", content: "noindex" },
     ],
   }),
+  errorComponent: () => (
+    <div className="py-6">
+      <DataErrorState onRetry={() => window.location.reload()} />
+    </div>
+  ),
   component: VayuForecastPage,
 });
 

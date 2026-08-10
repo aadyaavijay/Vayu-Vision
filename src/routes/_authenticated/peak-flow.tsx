@@ -3,7 +3,7 @@ import { useSuspenseQuery, useMutation, useQueryClient, queryOptions } from "@ta
 import { useServerFn } from "@tanstack/react-start";
 import { Suspense, useState } from "react";
 import { logPeakFlow, listPeakFlow } from "@/lib/logs.functions";
-import { PageHeader, EmptyState } from "@/components/ui-bits";
+import { PageHeader, EmptyState, DataErrorState } from "@/components/ui-bits";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -23,6 +23,11 @@ export const Route = createFileRoute("/_authenticated/peak-flow")({
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(pfQ()),
+  errorComponent: () => (
+    <div className="py-6">
+      <DataErrorState onRetry={() => window.location.reload()} />
+    </div>
+  ),
   component: PFPage,
 });
 const pfQ = () => queryOptions({ queryKey: ["peakflow"], queryFn: () => listPeakFlow() });

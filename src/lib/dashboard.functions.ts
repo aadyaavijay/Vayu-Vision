@@ -43,9 +43,28 @@ export const getDashboardData = createServerFn({ method: "GET" })
       supabase.from("peakflow_logs").select("id, value_lpm, personal_best, logged_at").eq("user_id", userId).order("logged_at", { ascending: false }).limit(10),
     ]);
 
+    // A failed read is NOT an empty dataset: surface it instead of scoring on partial data.
+    const failures = (
+      [
+        ["profile", profileRes.error],
+        ["settings", settingsRes.error],
+        ["environment", envRes.error],
+        ["symptoms", symptomsRes.error],
+        ["medications", medsRes.error],
+        ["peak flow", pfRes.error],
+      ] as const
+    ).filter(([, e]) => e);
+
+    if (failures.length > 0) {
+      throw new Error(
+        `DB_READ_FAILED: could not load ${failures.map(([n]) => n).join(", ")} — ${failures[0]![1]!.message}`,
+      );
+    }
+
     const symptoms = symptomsRes.data ?? [];
     const meds = medsRes.data ?? [];
     const pf = pfRes.data ?? [];
+
 
     // Medication adherence proxy: doses in past 3 days / expected 6.
     const threeDaysAgo = Date.now() - 3 * 24 * 3600 * 1000;

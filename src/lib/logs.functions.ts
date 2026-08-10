@@ -68,36 +68,42 @@ export const logPeakFlow = createServerFn({ method: "POST" })
 export const listSymptoms = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data } = await context.supabase
+    const { data, error } = await context.supabase
       .from("symptom_logs")
       .select("*")
       .eq("user_id", context.userId)
       .order("logged_at", { ascending: false })
       .limit(100);
+    // A read failure must not be reported as "no records".
+    if (error) throw new Error(`DB_READ_FAILED: symptom_logs — ${error.message}`);
     return data ?? [];
   });
 
 export const listMedications = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data } = await context.supabase
+    const { data, error } = await context.supabase
       .from("medication_logs")
       .select("*")
       .eq("user_id", context.userId)
       .order("taken_at", { ascending: false })
       .limit(100);
+    // A read failure must not be reported as "no records".
+    if (error) throw new Error(`DB_READ_FAILED: medication_logs — ${error.message}`);
     return data ?? [];
   });
 
 export const listPeakFlow = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data } = await context.supabase
+    const { data, error } = await context.supabase
       .from("peakflow_logs")
       .select("*")
       .eq("user_id", context.userId)
       .order("logged_at", { ascending: false })
       .limit(100);
+    // A read failure must not be reported as "no records".
+    if (error) throw new Error(`DB_READ_FAILED: peakflow_logs — ${error.message}`);
     return data ?? [];
   });
 

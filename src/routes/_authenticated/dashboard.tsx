@@ -153,13 +153,17 @@ function DashboardInner() {
         }
       />
 
-      {data.settings.home_latitude == null && (
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-teal/40 bg-teal/10 p-5 text-sm">
-          <div>
-            <div className="font-medium">Set your location to see live air quality</div>
-            <p className="text-muted-foreground">
-              We use Open-Meteo to fetch AQI, weather, and pollen for your area.
-            </p>
+      {(data.settings.home_latitude == null || !data.latestEnv) && (
+        <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-teal/40 bg-teal/10 p-6 text-sm shadow-soft">
+          <div className="flex items-start gap-3">
+            <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-teal" />
+            <div>
+              <div className="text-base font-semibold">Enable your location to get started</div>
+              <p className="mt-1 max-w-xl text-muted-foreground">
+                Sharing your location lets Vayu Vision show your local air quality, weather, and a
+                personalized risk score for today.
+              </p>
+            </div>
           </div>
           <Button
             size="sm"

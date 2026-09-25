@@ -31,10 +31,8 @@ const NAV: Array<{ to: string; label: string; icon: typeof Activity }> = [
   { to: "/symptoms", label: "Symptoms", icon: Activity },
   { to: "/medications", label: "Medications", icon: Pill },
   { to: "/peak-flow", label: "Peak flow", icon: Gauge },
-  { to: "/vayu-memory", label: "Vayu Memory", icon: CalendarDays },
-  { to: "/vayu-yatra", label: "Vayu Yatra", icon: Radar },
+  // Vayu Memory, Vayu Yatra and Analytics are hidden until they're complete.
   { to: "/vayu-forecast", label: "Vayu Forecast", icon: FlaskConical },
-  { to: "/analytics", label: "Analytics", icon: BarChart3 },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
